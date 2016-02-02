@@ -4,50 +4,16 @@ Configuration Main
 Param ( [string] $nodeName )
 
 Import-DscResource -ModuleName PSDesiredStateConfiguration
-Import-DscResource -ModuleName xNetworking
+
 
 Node $nodeName
   {
 
-	  	xFirewall Firewall
-        {
-            Name                  = "FTPports"
-            DisplayName           = "FTP Inbound rules"
-			Group                 = "FTP"
-            Action                = "Allow"
-            Enabled               = "True"
-            Profile               = "Any"
-            Direction             = "Inbound"
-            RemotePort            = ("Any")
-            LocalPort             = ("2501", "10000", "10001")         
-            Protocol              = "TCP"
-            Description           = "FTP ports" 
-        }
-
-	  	WindowsFeature WebServerRole
-		{
-			Name = "Web-Server"
-			Ensure = "Present"
-		}
-	  	
-	   WindowsFeature FTPServer
-		{
-			Name = "Web-Ftp-Server"
-			Ensure = "Present"
-		}
-
-	  	WindowsFeature FTPService
-		{
-			Name = "Web-Ftp-Service"
-			Ensure = "Present"
-		}
-	  	  	
-	    WindowsFeature MgmtConsole
-		{
-			Name = "Web-Mgmt-Console"
-			Ensure = "Present"
-		}
-
+	    xPackage TestPackage {
+        Name = 'Test'
+        Path = ".\createFTP.bat"
+        ProductId = ''
+    }
 
 	  
    <# This commented section represents an example configuration that can be updated as required.
